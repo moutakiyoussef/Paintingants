@@ -15,12 +15,13 @@ public class PaintingAnts extends java.applet.Applet implements Runnable {
   private int mLargeur;
   private int mHauteur;
 
+
   // l'objet graphique lui meme
   private CPainting mPainting;
 
   // les fourmis
-  private Vector<CFourmi> mColonie = new Vector<>();
-  private CColonie mColony;
+  private Vector<CFourmiVersion2> mColonie = new Vector<>();
+  private CColonieVersion2 mColony;
 
   private Thread mApplis, mThreadColony;
 
@@ -64,7 +65,7 @@ public class PaintingAnts extends java.applet.Applet implements Runnable {
   @Override
   public String[][] getParameterInfo() {
     String[][] lInfo = { { "SeuilLuminance", "string", "Seuil de luminance" }, { "Img", "string", "Image" },
-        { "NbFourmis", "string", "Nombre de fourmis" }, { "Fourmis", "string",
+            { "NbFourmis", "string", "Nombre de fourmis" }, { "Fourmis", "string",
             "Paramètres des fourmis (RGB_déposée)(RGB_suivie)(x,y,direction,taille)(TypeDeplacement,ProbaG,ProbaTD,ProbaD,ProbaSuivre);...;" } };
     return lInfo;
   }
@@ -209,7 +210,7 @@ public class PaintingAnts extends java.applet.Applet implements Runnable {
     String lChaine;
     int R, G, B;
     Color lCouleurDeposee, lCouleurSuivie;
-    CFourmi lFourmi;
+    CFourmiVersion2 lFourmi;
     float lProbaTD, lProbaG, lProbaD, lProbaSuivre, lSeuilLuminance;
     char lTypeDeplacement = ' ';
     int lInitDirection, lTaille;
@@ -345,11 +346,11 @@ public class PaintingAnts extends java.applet.Applet implements Runnable {
         lProbaD /= lSomme;
 
         System.out.println(
-            "(" + lTypeDeplacement + "," + lProbaG + "," + lProbaTD + "," + lProbaD + "," + lProbaSuivre + ");");
+                "(" + lTypeDeplacement + "," + lProbaG + "," + lProbaTD + "," + lProbaD + "," + lProbaSuivre + ");");
 
         // création de la fourmi
-        lFourmi = new CFourmi(lCouleurDeposee, lCouleurSuivie, lProbaTD, lProbaG, lProbaD, lProbaSuivre, mPainting,
-            lTypeDeplacement, lInit_x, lInit_y, lInitDirection, lTaille, lSeuilLuminance, this);
+        lFourmi = new CFourmiVersion2(lCouleurDeposee, lCouleurSuivie, lProbaTD, lProbaG, lProbaD, lProbaSuivre, mPainting,
+                lTypeDeplacement, lInit_x, lInit_y, lInitDirection, lTaille, lSeuilLuminance, this);
         mColonie.addElement(lFourmi);
         lNbFourmis++;
       }
@@ -400,16 +401,16 @@ public class PaintingAnts extends java.applet.Applet implements Runnable {
         lProbaSuivre = (float) (0.5 + 0.5 * Math.random());
 
         System.out.print(
-            "Random:(" + lTabColor[i].getRed() + "," + lTabColor[i].getGreen() + "," + lTabColor[i].getBlue() + ")");
+                "Random:(" + lTabColor[i].getRed() + "," + lTabColor[i].getGreen() + "," + lTabColor[i].getBlue() + ")");
         System.out.print("(" + lTabColor[lColor].getRed() + "," + lTabColor[lColor].getGreen() + ","
-            + lTabColor[lColor].getBlue() + ")");
+                + lTabColor[lColor].getBlue() + ")");
         System.out.print("(" + lInit_x + "," + lInit_y + "," + lInitDirection + "," + lTaille + ")");
         System.out.println(
-            "(" + lTypeDeplacement + "," + lProbaG + "," + lProbaTD + "," + lProbaD + "," + lProbaSuivre + ");");
+                "(" + lTypeDeplacement + "," + lProbaG + "," + lProbaTD + "," + lProbaD + "," + lProbaSuivre + ");");
 
         // création et ajout de la fourmi dans la colonie
-        lFourmi = new CFourmi(lTabColor[i], lTabColor[lColor], lProbaTD, lProbaG, lProbaD, lProbaSuivre, mPainting,
-            lTypeDeplacement, lInit_x, lInit_y, lInitDirection, lTaille, lSeuilLuminance, this);
+        lFourmi = new CFourmiVersion2(lTabColor[i], lTabColor[lColor], lProbaTD, lProbaG, lProbaD, lProbaSuivre, mPainting,
+                lTypeDeplacement, lInit_x, lInit_y, lInitDirection, lTaille, lSeuilLuminance, this);
         mColonie.addElement(lFourmi);
       }
     }
@@ -456,7 +457,7 @@ public class PaintingAnts extends java.applet.Applet implements Runnable {
    */
   @Override
   public void start() {
-    mColony = new CColonie(mColonie, this);
+    mColony = new CColonieVersion2(mColonie, this);
     mThreadColony = new Thread(mColony);
     mThreadColony.setPriority(Thread.MIN_PRIORITY);
 
